@@ -1,0 +1,6 @@
+{
+  "hostName":  "change-me-to-host-name",
+  "port":      "chnage-me-to-port-number",
+  "path":      "chnage-me-to-path-of-file-to-be-uploaded",
+  "chunkSize": "chnage-me-to-chunk-size"
+}
