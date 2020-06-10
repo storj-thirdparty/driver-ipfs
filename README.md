@@ -1,7 +1,7 @@
-## driver-IPFS (uplink v1.0.5)
+## driver-ipfs (uplink v1.0.5)
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/storj-thirdparty/driver-IPFS)](https://goreportcard.com/report/github.com/storj-thirdparty/driver-IPFS)
-![Cloud Build](https://storage.googleapis.com/storj-utropic-services-badges/builds/driver-IPFS/branches/master.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/storj-thirdparty/driver-ipfs)](https://goreportcard.com/report/github.com/storj-thirdparty/driver-ipfs)
+![Cloud Build](https://storage.googleapis.com/storj-utropic-services-badges/builds/driver-ipfs/branches/master.svg)
 
 
 ## Overview
