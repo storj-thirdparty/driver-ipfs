@@ -18,6 +18,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"encoding/base64"
+
 	"storj.io/uplink"
 )
 
@@ -310,8 +311,12 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 			log.Fatal(err)
 		}
 
+		// read data
 		dataReader := bytes.NewReader(dec)
-		io.Copy(downloadFileDisk, dataReader)
+		_, err = io.Copy(downloadFileDisk, dataReader)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		// Close the file handle after reading from it.
 		if err = downloadFileDisk.Close(); err != nil {
