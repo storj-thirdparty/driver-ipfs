@@ -344,7 +344,7 @@ func decrypt(key, text []byte) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	iv = nil
+
 	text = nil
 	cfb = nil
 	return data, nil
