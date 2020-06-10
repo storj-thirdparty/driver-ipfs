@@ -10,7 +10,7 @@ The IPFS Driver connects to an IPFS server, takes a backup of the specified file
 
 ```bash
 Usage:
-  driver-IPFS [command] <flags>
+  driver-ipfs [command] <flags>
 
 Available Commands:
   help        Help about any command
@@ -41,13 +41,13 @@ To build from scratch, [install the latest Go](https://golang.org/doc/install#in
 To clone the repo
 
 ```
-git clone https://github.com/storj-thirdparty/driver-IPFS.git
+git clone https://github.com/storj-thirdparty/driver-ipfs.git
 ```
 
 Then, build the project using the following:
 
 ```
-cd driver-IPFS
+cd driver-ipfs
 go build
 ```
 
@@ -56,7 +56,7 @@ go build
  To download the project inside your GOPATH use the following command:
 
 ```
-go get github.com/storj-thirdparty/driver-IPFS
+go get github.com/storj-thirdparty/driver-ipfs
 ```
 
 ## Connect to IPFS Server
@@ -75,35 +75,35 @@ Once you have built the project run the following commands as per your requireme
 ##### Get help
 
 ```
-$ ./driver-IPFS --help
+$ ./driver-ipfs --help
 ```
 
 ##### Check version
 
 ```
-$ ./driver-IPFS --version
+$ ./driver-ipfs --version
 ```
 
 ##### Upload data from local storage using ipfs and upload to Storj
 
 ```
-$ ./driver-IPFS store
+$ ./driver-ipfs store
 ```
 
 ##### Download backup from Storj using earlier created ipfs file hash
 
 ```
-$ ./driver-IPFS download
+$ ./driver-ipfs download
 ```
 
 ## Documentation
 
-For more information on runtime flags, configuration, testing, and diagrams, check out the [Detail](//github.com/storj-thirdparty/driver-IPFS/wiki/Home) or jump to:
+For more information on runtime flags, configuration, testing, and diagrams, check out the [Detail](//github.com/storj-thirdparty/driver-ipfs/wiki/Home) or jump to:
 
-* [Config Files](//github.com/storj-thirdparty/driver-IPFS/wiki/#config-files)
-* [Run (long version)](//github.com/storj-thirdparty/driver-IPFS/wiki/#run)
-* [Testing](//github.com/storj-thirdparty/driver-IPFS/wiki/#testing)
-* [Data-Flow Diagram (Upload)](//github.com/storj-thirdparty/driver-IPFS/wiki/#data-flow-diagram-upload)
-* [Data-Flow Diagram (Download)](//github.com/storj-thirdparty/driver-IPFS/wiki/#data-flow-diagram-download)
-* [Work-Flow Diagram (Upload)](//github.com/storj-thirdparty/driver-IPFS/wiki/#work-flow-diagram-upload)
-* [Work-Flow Diagram (Download)](//github.com/storj-thirdparty/driver-IPFS/wiki/#work-flow-diagram-download)
+* [Config Files](//github.com/storj-thirdparty/driver-ipfs/wiki/#config-files)
+* [Run (long version)](//github.com/storj-thirdparty/driver-ipfs/wiki/#run)
+* [Testing](//github.com/storj-thirdparty/driver-ipfs/wiki/#testing)
+* [Data-Flow Diagram (Upload)](//github.com/storj-thirdparty/driver-ipfs/wiki/#data-flow-diagram-upload)
+* [Data-Flow Diagram (Download)](//github.com/storj-thirdparty/driver-ipfs/wiki/#data-flow-diagram-download)
+* [Work-Flow Diagram (Upload)](//github.com/storj-thirdparty/driver-ipfs/wiki/#work-flow-diagram-upload)
+* [Work-Flow Diagram (Download)](//github.com/storj-thirdparty/driver-ipfs/wiki/#work-flow-diagram-download)
