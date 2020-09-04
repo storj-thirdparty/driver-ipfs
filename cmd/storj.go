@@ -97,10 +97,14 @@ func LoadStorjDownloadConfiguration(fullFileName string) DownloadConfigStorj { /
 	if err != nil {
 		log.Fatal("Error in Opening file")
 	}
-	defer fileHandle.Close()
 
 	jsonParser := json.NewDecoder(fileHandle)
 	if err = jsonParser.Decode(&downloadConfigStorj); err != nil {
+		log.Fatal(err)
+	}
+
+	err = fileHandle.Close()
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -284,7 +288,13 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 
 	var fileNameDownload = downloadConfigStorj.DownloadPath + "/" + lastFileName
 
-	os.Remove(fileNameDownload)
+	_, err = os.Stat(fileNameDownload)
+	if err == nil {
+		err = os.Remove(fileNameDownload)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
 	hmkey := []byte("This is a storj ipfs private key")
 
@@ -294,9 +304,9 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 			log.Fatalf("Could not open object at %q: %v", downloadPath+downloadFileName+"/"+filename, err)
 		}
 		if _, err = os.Stat("./debug"); os.IsNotExist(err) {
-			err1 := os.Mkdir("./debug"+"/"+lastFileName, 0750)
+			err1 := os.Mkdir("./debug", 0750)
 			if err1 != nil {
-				log.Fatal("Coudld not create debug folder: ", err1)
+				log.Fatal("Could not create debug folder: ", err1)
 			}
 		}
 
@@ -312,7 +322,7 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 			log.Fatal("Could not decrypt received data:", err)
 		}
 		// Create/open file in append mode.
-		downloadFileDisk, err := os.OpenFile(filepath.Join("./debug", lastFileName), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0750)
+		downloadFileDisk, err := os.OpenFile(filepath.Clean(filepath.Join("./debug", lastFileName)), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		if err != nil {
 			log.Fatal(err)
 		}

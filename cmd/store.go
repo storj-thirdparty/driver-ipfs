@@ -14,6 +14,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+
 	shell "github.com/ipfs/go-ipfs-api"
 	chunker "github.com/ipfs/go-ipfs-chunker"
 	"github.com/spf13/cobra"
@@ -106,7 +107,16 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 
 	var metaFile *os.File
 	metaFileName := "./metadata.txt"
-	os.Remove(metaFileName)
+
+	newFile, err2 := os.Create(metaFileName)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+
+	err2 = newFile.Close()
+	if err2 != nil {
+		log.Fatal(err2)
+	}
 
 	for i := 0; i < noOfChunkFiles; i++ {
 
@@ -132,7 +142,7 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 		UploadData(project, storjConfig, fileName, reader)
 
 		// Write all chunks CID into loacl disk file in append mode.
-		metaFile, _ = os.OpenFile(metaFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		metaFile, _ = os.OpenFile(metaFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		if _, err := metaFile.WriteString(encryptChunkCID + ","); err != nil {
 			log.Fatal(err)
 		}
@@ -152,7 +162,10 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 	}
 	metaReader := bytes.NewReader(metaBytes)
 	// Close Meta file
-	openMetaFile.Close()
+	err = openMetaFile.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Remove meta file from local disk.
 	err = os.Remove(metaFileName)
 	if err != nil {
