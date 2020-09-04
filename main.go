@@ -1,6 +1,6 @@
 package main
 
-import "github.com/storj-thirdparty/driver-IPFS/cmd"
+import "github.com/storj-thirdparty/driver-ipfs/cmd"
 
 func main() {
 	cmd.Execute()

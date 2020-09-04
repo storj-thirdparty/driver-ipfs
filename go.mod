@@ -1,4 +1,4 @@
-module github.com/storj-thirdparty/driver-IPFS
+module github.com/storj-thirdparty/driver-ipfs
 
 go 1.13
 

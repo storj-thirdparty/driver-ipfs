@@ -14,6 +14,7 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+
 	shell "github.com/ipfs/go-ipfs-api"
 	chunker "github.com/ipfs/go-ipfs-chunker"
 	"github.com/spf13/cobra"
@@ -45,12 +46,12 @@ func init() {
 	var defaultStorjDownloadFile string
 	storeCmd.Flags().BoolP("accesskey", "a", false, "Connect to storj using access key(default connection method is by using API Key).")
 	storeCmd.Flags().BoolP("share", "s", false, "For generating share access of the uploaded backup file.")
-	storeCmd.Flags().StringVarP(&defaultIpfsFile, "ipfs", "i", "././config/ipfs_property_v01.json", "full filepath contaning IPFS configuration.")
-	storeCmd.Flags().StringVarP(&defaultStorjFile, "storj", "u", "././config/storj_config_v01.json", "full filepath contaning storj V3 configuration.")
-	DownCmd.Flags().StringVarP(&defaultIpfsFile, "ipfs", "i", "././config/ipfs_property_v01.json", "full filepath contaning IPFS configuration.")
+	storeCmd.Flags().StringVarP(&defaultIpfsFile, "ipfs", "i", "././config/ipfs_property.json", "full filepath contaning IPFS configuration.")
+	storeCmd.Flags().StringVarP(&defaultStorjFile, "storj", "u", "././config/storj_config.json", "full filepath contaning storj V3 configuration.")
+	DownCmd.Flags().StringVarP(&defaultIpfsFile, "ipfs", "i", "././config/ipfs_property.json", "full filepath contaning IPFS configuration.")
 	DownCmd.Flags().BoolP("accesskey", "a", false, "Connect to storj using access key(default connection method is by using API Key).")
-	DownCmd.Flags().StringVarP(&defaultStorjFile, "storj", "u", "././config/storj_config_v01.json", "full filepath contaning storj V3 configuration.")
-	DownCmd.Flags().StringVarP(&defaultStorjDownloadFile, "storjDown", "d", "././config/storj_download_v01.json", "Download data from stroj")
+	DownCmd.Flags().StringVarP(&defaultStorjFile, "storj", "u", "././config/storj_config.json", "full filepath contaning storj V3 configuration.")
+	DownCmd.Flags().StringVarP(&defaultStorjDownloadFile, "storjDown", "d", "././config/storj_download.json", "Download data from stroj")
 }
 
 func ipfsStore(cmd *cobra.Command, args []string) {
@@ -106,7 +107,16 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 
 	var metaFile *os.File
 	metaFileName := "./metadata.txt"
-	os.Remove(metaFileName)
+
+	newFile, err2 := os.Create(metaFileName)
+	if err2 != nil {
+		log.Fatal(err2)
+	}
+
+	err2 = newFile.Close()
+	if err2 != nil {
+		log.Fatal(err2)
+	}
 
 	for i := 0; i < noOfChunkFiles; i++ {
 
@@ -132,7 +142,7 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 		UploadData(project, storjConfig, fileName, reader)
 
 		// Write all chunks CID into loacl disk file in append mode.
-		metaFile, _ = os.OpenFile(metaFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+		metaFile, _ = os.OpenFile(metaFileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0600)
 		if _, err := metaFile.WriteString(encryptChunkCID + ","); err != nil {
 			log.Fatal(err)
 		}
@@ -152,7 +162,10 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 	}
 	metaReader := bytes.NewReader(metaBytes)
 	// Close Meta file
-	openMetaFile.Close()
+	err = openMetaFile.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
 	// Remove meta file from local disk.
 	err = os.Remove(metaFileName)
 	if err != nil {
@@ -177,12 +190,10 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 		log.Fatal(err)
 	}
 
-	var hash []byte
-	hash = []byte(encryptCID)
+	hash := []byte(encryptCID)
 
 	// Create buffer for Chunk CID and encrypted Storj configurations.
-	var encryptedStorjConfig []byte
-	encryptedStorjConfig = append(hash, storjEncryptData...)
+	encryptedStorjConfig := append(hash, storjEncryptData...)
 
 	// Create the CID from encrypted chunk data and encrypted
 	// storj configration and enrypted private key.
@@ -193,7 +204,6 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 	if useAccessShare {
 		ShareAccess(access, storjConfig)
 	}
-
 }
 
 func storjDownload(cmd *cobra.Command, args []string) {
