@@ -6,5 +6,5 @@ require (
 	github.com/ipfs/go-ipfs-api v0.0.3
 	github.com/ipfs/go-ipfs-chunker v0.0.5
 	github.com/spf13/cobra v1.0.0
-	storj.io/uplink v1.0.5
+	storj.io/uplink v1.4.4
 )
