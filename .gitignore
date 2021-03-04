@@ -1,0 +1,6 @@
+.idea
+driver-IPFS.exe
+debug
+/config/ipfs_property_v01.json
+/config/storj_config_v01.json
+/config/storj_download_v01.json

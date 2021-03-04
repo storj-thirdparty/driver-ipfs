@@ -91,7 +91,12 @@ func LoadStorjDownloadConfiguration(fullFileName string) DownloadConfigStorj { /
 	if err != nil {
 		log.Fatal("Error in Opening file")
 	}
-	defer fileHandle.Close()
+	defer func() {
+		err := fileHandle.Close()
+		if err != nil {
+			log.Fatal("Error in Closing file")
+		}
+	}()
 
 	jsonParser := json.NewDecoder(fileHandle)
 	if err = jsonParser.Decode(&downloadConfigStorj); err != nil {
@@ -174,7 +179,12 @@ func ConnectToStorj(fullFileName string, configStorj ConfigStorj, accesskey bool
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer project.Close()
+	defer func() {
+		err := project.Close()
+		if err != nil {
+			log.Fatal(err)
+		}
+	}()
 
 	// Ensure the desired Bucket within the Project.
 	_, err = project.EnsureBucket(ctx, configStorj.Bucket)
@@ -278,7 +288,7 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 
 	var fileNameDownload = downloadConfigStorj.DownloadPath + "/" + lastFileName
 
-	os.Remove(fileNameDownload)
+	_ = os.Remove(fileNameDownload)
 
 	hmkey := []byte("This is a storj ipfs private key")
 
@@ -290,7 +300,7 @@ func DownloadData(project *uplink.Project, downloadConfigStorj DownloadConfigSto
 		if _, err = os.Stat("./debug"); os.IsNotExist(err) {
 			err1 := os.Mkdir("./debug"+"/"+lastFileName, 0750)
 			if err1 != nil {
-				log.Fatal("Coudld not create debug folder: ", err1)
+				log.Fatal("Could not create debug folder: ", err1)
 			}
 		}
 
