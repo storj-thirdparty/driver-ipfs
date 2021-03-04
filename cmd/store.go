@@ -180,8 +180,7 @@ func ipfsStore(cmd *cobra.Command, args []string) {
 	hash := []byte(encryptCID)
 
 	// Create buffer for Chunk CID and encrypted Storj configurations.
-	var encryptedStorjConfig []byte
-	encryptedStorjConfig = append(hash, storjEncryptData...)
+	encryptedStorjConfig := append(hash, storjEncryptData...)
 
 	// Create the CID from encrypted chunk data and encrypted
 	// storj configration and enrypted private key.
