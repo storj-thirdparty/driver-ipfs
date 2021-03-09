@@ -12,7 +12,7 @@ steps:
     env: ["GO111MODULE=on", "CGO_ENABLED=0"]
   - id: go_security
     name: "securego/gosec"
-    args: ["", "./...", "--exclude=G304,G302,G104" ]
+    args: ["", "--exclude=G304,G302,G104", "./..." ]
   - id: go_build
     name: "mirror.gcr.io/library/golang"
     env: ['GO111MODULE=on']
