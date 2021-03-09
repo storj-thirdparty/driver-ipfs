@@ -19,11 +19,4 @@ steps:
     args: ['go', 'build', './...']
   - id: doc_check
     name: "ubuntu"
-    args: ['bash', './test/doc-check.sh']
-#   name: "gcr.io/cloud-builders/go"
-#   args: ["build"]
-#   env: ["GOPATH=.","GO111MODULE=on", "CGO_ENABLED=0"]
-# - id: go_test
-#   name: "gcr.io/cloud-builders/go"
-#   args: ["test","helloworld"]
-#   env: ["GOPATH=."]  
+    args: ['bash', './util/doc-check.sh']
